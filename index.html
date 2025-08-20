@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manuales de Software - Balanceo y Cálculo de Raciones para Bovinos</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: var(--bg-body);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        /* Theme Variables */
+        :root {
+            --bg-body: #f8fafc;
+            --text-color: #1f2937;
+            --header-bg: #1e3a8a;
+            --header-text: #ffffff;
+            --sidebar-bg: #ffffff;
+            --sidebar-border: #e5e7eb;
+            --section-bg: #ffffff;
+            --section-border: #3b82f6;
+            --section-hover: #2563eb;
+            --code-bg: #f1f5f9;
+            --code-border: #e5e7eb;
+            --footer-bg: #0f172a;
+            --footer-text: #94a3b8;
+            --link-hover: #eff6ff;
+            --button-bg: #3b82f6;
+            --button-hover: #2563eb;
+            --menu-item-hover: #f1f5f9;
+            --accent-color: #3b82f6;
+        }
+
+        [data-theme="dark"] {
+            --bg-body: #0f172a;
+            --text-color: #e5e7eb;
+            --header-bg: #1e293b;
+            --header-text: #e5e7eb;
+            --sidebar-bg: #1e293b;
+            --sidebar-border: #334155;
+            --section-bg: #1e293b;
+            --section-border: #60a5fa;
+            --section-hover: #3b82f6;
+            --code-bg: #0f172a;
+            --code-border: #334155;
+            --footer-bg: #020617;
+            --footer-text: #94a3b8;
+            --link-hover: #1e293b;
+            --button-bg: #60a5fa;
+            --button-hover: #3b82f6;
+            --menu-item-hover: #334155;
+            --accent-color: #60a5fa;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            z-index: 1000;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.05);
+            padding: 20px 0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .sidebar:hover {
+            box-shadow: 4px 0 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar.collapsed {
+            transform: translateX(-280px);
+        }
+
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1001;
+            background: var(--button-bg);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .sidebar-toggle:hover {
+            background: var(--button-hover);
+            transform: scale(1.05);
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar li {
+            margin: 8px 0;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            padding: 14px 24px;
+            color: var(--text-color);
+            text-decoration: none;
+            transition: background 0.3s, color 0.3s, padding-left 0.3s;
+            font-weight: 600;
+            border-radius: 8px;
+        }
+
+        .sidebar a:hover, .sidebar a.active {
+            background: var(--menu-item-hover);
+            color: var(--accent-color);
+            padding-left: 28px;
+        }
+
+        .sidebar a .icon {
+            margin-right: 16px;
+            font-size: 1.3em;
+            transition: transform 0.3s;
+        }
+
+        .sidebar a:hover .icon {
+            transform: rotate(10deg);
+        }
+
+        .theme-toggle {
+            background: var(--button-bg);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px;
+            cursor: pointer;
+            width: calc(100% - 40px);
+            margin: 30px auto 0;
+            display: block;
+            text-align: center;
+            font-size: 1em;
+            font-weight: 600;
+            transition: background 0.3s, transform 0.3s;
+        }
+
+        .theme-toggle:hover {
+            background: var(--button-hover);
+            transform: translateY(-2px);
+        }
+
+        /* Header */
+        header {
+            background: var(--header-bg);
+            color: var(--header-text);
+            padding: 80px 20px 60px;
+            text-align: center;
+            margin-left: 280px;
+            width: calc(100% - 280px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        header p {
+            font-size: 1.3em;
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease-out 0.5s;
+            animation-fill-mode: both;
+        }
+
+        /* Main Content */
+        main {
+            margin-left: 280px;
+            width: calc(100% - 280px);
+            padding: 60px 40px;
+            flex-grow: 1;
+        }
+
+        /* Content Sections */
+        .manual-content {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: none;
+        }
+
+        .manual-content.active {
+            display: block;
+        }
+
+        .manual-content section {
+            background: var(--section-bg);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.08);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: transform 0.5s ease, opacity 0.5s ease, box-shadow 0.3s ease;
+        }
+
+        .manual-content section:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .manual-content section.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .manual-content h2 {
+            color: var(--section-border);
+            border-bottom: 2px solid var(--section-border);
+            padding-bottom: 12px;
+            margin-bottom: 25px;
+            cursor: pointer;
+            font-size: 2em;
+            font-weight: 700;
+            transition: color 0.3s;
+        }
+
+        .manual-content h2:hover {
+            color: var(--section-hover);
+        }
+
+        .manual-content .sub-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .manual-content .sub-content.active {
+            display: block;
+        }
+
+        ul {
+            list-style: disc;
+            margin-left: 25px;
+            margin-bottom: 20px;
+            font-size: 1.1em;
+        }
+
+        pre {
+            background: var(--code-bg);
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Fira Code', monospace;
+            border-left: 5px solid var(--code-border);
+            margin-bottom: 20px;
+            font-size: 0.95em;
+        }
+
+        /* Placeholder */
+        .placeholder {
+            text-align: center;
+            color: #64748b;
+            font-style: italic;
+            font-size: 1.2em;
+            padding: 20px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--footer-bg);
+            color: var(--footer-text);
+            text-align: center;
+            padding: 40px 20px;
+            margin-left: 280px;
+            width: calc(100% - 280px);
+            margin-top: auto;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        footer p {
+            font-size: 1em;
+            letter-spacing: 0.5px;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 240px;
+            }
+
+            header, main, footer {
+                margin-left: 240px;
+                width: calc(100% - 240px);
+            }
+
+            header h1 {
+                font-size: 2.5em;
+            }
+
+            header p {
+                font-size: 1.1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .sidebar {
+                transform: translateX(-280px);
+                width: 280px;
+                position: fixed;
+                z-index: 1000;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .sidebar-toggle {
+                display: block;
+            }
+
+            header, main, footer {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .manual-content section {
+                padding: 20px;
+            }
+
+            footer {
+                padding: 30px 15px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+</head>
+<body>
+    <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+
+    <div class="sidebar">
+        <ul>
+            <li><a href="#" onclick="showManual('usuario')" id="link-usuario"><span class="icon">👤</span> Manual de Usuario</a></li>
+            <li><a href="#" onclick="showManual('tecnico')" id="link-tecnico"><span class="icon">🛠️</span> Manual Técnico</a></li>
+            <li><a href="#" onclick="showManual('instalacion')" id="link-instalacion"><span class="icon">📥</span> Manual de Instalación</a></li>
+        </ul>
+        <button class="theme-toggle" onclick="toggleTheme()">🌙 Modo Oscuro</button>
+    </div>
+
+    <header>
+        <h1>Manuales de Software</h1>
+        <p>Guía para el software de balanceo y cálculo de raciones para bovinos desarrollado para el Centro Biotecnológico del Caribe (CBC).</p>
+    </header>
+
+    <main>
+        <div id="manual-usuario" class="manual-content">
+            <section>
+                <h2>Manual de Usuario</h2>
+                <div class="placeholder">Contenido del Manual de Usuario próximamente disponible.</div>
+            </section>
+        </div>
+
+        <div id="manual-tecnico" class="manual-content">
+            <section>
+                <h2 onclick="toggleSubContent(this)">1. Introducción</h2>
+                <div class="sub-content">
+                    <h3>Propósito del manual:</h3>
+                    <p>Este manual tiene como finalidad proporcionar una guía detallada para la instalación, configuración, uso y mantenimiento del software de balanceo y cálculo de raciones para bovinos desarrollado para el Centro Biotecnológico del Caribe (CBC). Está dirigido a desarrolladores, técnicos, instructores, aprendices y ganaderos que utilicen la herramienta.</p>
+
+                    <h3>Alcance del software:</h3>
+                    <p>El software permite calcular raciones alimenticias para bovinos en diferentes etapas productivas (crecimiento, mantenimiento, gestación, lactancia, engorde) optimizando la nutrición y reduciendo errores humanos. Facilita reportes, análisis y control histórico para mejorar la productividad y rentabilidad ganadera.</p>
+
+                    <h3>Versiones del documento:</h3>
+                    <p>Versión 1.0 – Febrero 2025.</p>
+                </div>
+            </section>
+
+            <section>
+                <h2 onclick="toggleSubContent(this)">2. Requerimientos del sistema</h2>
+                <div class="sub-content">
+                    <h3>Hardware necesario:</h3>
+                    <ul>
+                        <li>Procesador: Intel Core i3 o superior.</li>
+                        <li>Memoria RAM: mínimo 4 GB.</li>
+                        <li>Almacenamiento: mínimo 500 MB libres.</li>
+                        <li>Pantalla: resolución mínima 1366x768 píxeles.</li>
+                    </ul>
+
+                    <h3>Software base y dependencias:</h3>
+                    <ul>
+                        <li>Sistema operativo: Windows 10/11 o Linux Ubuntu 20.04+.</li>
+                        <li>Lenguaje backend: Python 3.10+.</li>
+                        <li>Lenguaje frontend: HTML, CSS, JavaScript.</li>
+                        <li>Base de datos: MySQL.</li>
+                        <li>Librerías Python: Flask==2.3.3, Werkzeug==2.3.7, Flask-SQLAlchemy==3.0.5, Flask-Migrate==4.0.4, Flask-Login==0.6.2, Flask-JWT-Extended==4.5.2, pymysql==1.1.0, pulp==2.7.0</li>
+                    </ul>
+
+                    <h3>Configuraciones recomendadas:</h3>
+                    <ul>
+                        <li>Conexión estable a internet para actualizaciones.</li>
+                        <li>Usuario con permisos de instalación.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2 onclick="toggleSubContent(this)">3. Arquitectura del software</h2>
+                <div class="sub-content">
+                    <h3>Diseño general y componentes:</h3>
+                    <ul>
+                        <li>Frontend: Interfaz web amigable e intuitiva para el ingreso de datos y visualización de resultados.</li>
+                        <li>Backend: Módulos de cálculo de raciones, conexión a base de datos y generación de reportes.</li>
+                        <li>Base de datos: Contiene tablas NRC, composición bromatológica y registros de usuarios y ganado.</li>
+                    </ul>
+
+                    <h3>Relaciones entre módulos:</h3>
+                    <ul>
+                        <li>Módulo de ingreso de datos → Módulo de cálculo → Módulo de reportes.</li>
+                        <li>Módulo de usuarios → Control de accesos y permisos.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2 onclick="toggleSubContent(this)">4. Instalación y configuración</h2>
+                <div class="sub-content">
+                    <h3>Instalación:</h3>
+                    <ol>
+                        <li>Descargar el instalador o clonar el repositorio del software.</li>
+                        <li>Instalar dependencias según requirements.txt.</li>
+                        <li>Configurar variables de entorno (credenciales DB, puertos).</li>
+                    </ol>
+
+                    <h3>Configuración inicial:</h3>
+                    <ul>
+                        <li>Ingresar tablas NRC y composición bromatológica inicial.</li>
+                        <li>Registrar usuarios y roles.</li>
+                        <li>Definir parámetros por defecto para cálculos.</li>
+                    </ul>
+
+                    <h3>Resolución de problemas comunes:</h3>
+                    <ul>
+                        <li>Error de conexión a base de datos → Verificar credenciales y puerto.</li>
+                        <li>Cálculos erróneos → Confirmar datos de entrada y tablas NRC cargadas.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2 onclick="toggleSubContent(this)">5. Descripción de módulos y funciones</h2>
+                <div class="sub-content">
+                    <ul>
+                        <li>Gestión de usuarios: Registro, autenticación y asignación de roles.</li>
+                        <li>Ingreso de datos ganaderos: Peso, etapa productiva, raza, ubicación.</li>
+                        <li>Ingreso de materias primas: Contenido nutricional y disponibilidad.</li>
+                        <li>Cálculo de raciones: Basado en tablas NRC y composición bromatológica.</li>
+                        <li>Ajustes manuales: Modificación de ingredientes y cantidades.</li>
+                        <li>Historial de cálculos: Seguimiento de cambios y resultados.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2 onclick="toggleSubContent(this)">6. Interfaz de usuario</h2>
+                <div class="sub-content">
+                    <ul>
+                        <li>Menú principal con acceso a módulos: Inicio, Ganado, Materias Primas, Cálculos, Reportes, Configuración.</li>
+                        <li>Pantallas con formularios simples y validados.</li>
+                        <li>Reportes descargables en PDF/Excel.</li>
+                        <li>Navegación intuitiva con botones claros y mensajes de ayuda.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2 onclick="toggleSubContent(this)">7. APIs y servicios externos</h2>
+                <div class="sub-content">
+                    <pre><code>{
+  "id_racion": 67,
+  "infoAnimal": {
+    "grasa_en_leche": 3.5,
+    "peso": 475.9,
+    "produccion_de_leche": 16
+  },
+  "racion_optima": {
+    "cumplimiento": {
+      "EM": true,
+      "MS": true,
+      "PC": true
+    },
+    "ingredientes_considerados": [
+      {
+        "costo_kg": 0.5,
+        "em": 2,
+        "id_ingrediente": 1,
+        "nombre": "bermuda - cynodon dactylon - hoja,tallo",
+        "pc_g": 120
+      },
+      {
+        "costo_kg": 0.4,
+        "em": 1.9,
+        "id_ingrediente": 5,
+        "nombre": "colosuana bothriochloa pertusa - hoja,tallo",
+        "pc_g": 90
+      },
+      {
+        "costo_kg": 0.5,
+        "em": 2,
+        "id_ingrediente": 8,
+        "nombre": "king grass - pennisetum purpureum xp. typhoides - hoja,tallo",
+        "pc_g": 110
+      },
+      {
+        "costo_kg": 0.7,
+        "em": 2.1,
+        "id_ingrediente": 12,
+        "nombre": "matarraton - gliricidia sepium - hoja",
+        "pc_g": 120
+      }
+    ],
+    "objetivo": "costo",
+    "objetivo_ms": 14.28,
+    "solucion": [
+      {
+        "em_aporte": 0,
+        "id_ingrediente": 1,
+        "kg_ms": 0,
+        "nombre": "bermuda - cynodon dactylon - hoja,tallo",
+        "pc_aporte_g": 0
+      },
+      {
+        "em_aporte": 27.132,
+        "id_ingrediente": 5,
+        "kg_ms": 14.28,
+        "nombre": "colosuana bothriochloa pertusa - hoja,tallo",
+        "pc_aporte_g": 1285.2
+      },
+      {
+        "em_aporte": 0,
+        "id_ingrediente": 8,
+        "kg_ms": 0,
+        "nombre": "king grass - pennisetum purpureum xp. typhoides - hoja,tallo",
+        "pc_aporte_g": 0
+      },
+      {
+        "em_aporte": 0,
+        "id_ingrediente": 12,
+        "kg_ms": 0,
+        "nombre": "matarraton - gliricidia sepium - hoja",
+        "pc_aporte_g": 0
+      }
+    ],
+    "status": "Optimal",
+    "totales": {
+      "ED": 33.088,
+      "EM": 27.132,
+      "EN": 16.361,
+      "MS": 14.28,
+      "PC": 1285.2,
+      "PD": 835.4,
+      "PT": 1285.2,
+      "TND": 7.505
+    }
+  },
+  "requerimientos": {
+    "ED": 23.326,
+    "EM": 19.127,
+    "EN": 10.733,
+    "MS": 14.28,
+    "PC": 524.8,
+    "PD": 341.1,
+    "TND": 5.29
+  },
+  "requerimientosEnergeticos": {
+    "energia_digestible": 23.326,
+    "energia_metabolizable": 19.127,
+    "energia_neta": 10.733,
+    "tnd": 5.29
+  },
+  "requerimientosMinerales": {
+    "calcio": null,
+    "fosforo": null
+  },
+  "requerimientosProteicos": {
+    "materia_seca": 14.28,
+    "proteina_digestible": 341.1,
+    "proteina_total": 524.8
+  },
+  "saved": true
+}</code></pre>
+                </div>
+            </section>
+
+            <section>
+                <h2 onclick="toggleSubContent(this)">9. Mantenimiento y actualizaciones</h2>
+                <div class="sub-content">
+                    <ul>
+                        <li>Revisar base de datos y limpiar registros obsoletos cada 6 meses.</li>
+                        <li>Aplicar parches y actualizaciones de librerías.</li>
+                        <li>Probar nuevas funciones en entorno de prueba antes de pasarlas a producción.</li>
+                        <li>Migrar datos con scripts seguros y respaldos previos.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2 onclick="toggleSubContent(this)">10. Resolución de problemas</h2>
+                <div class="sub-content">
+                    <h3>Errores comunes:</h3>
+                    <ul>
+                        <li>No carga interfaz: Verificar que el servidor backend esté activo.</li>
+                        <li>Datos incompletos en reportes: Confirmar que todos los campos fueron llenados.</li>
+                        <li>No se guardan cambios: Revisar permisos de usuario.</li>
+                    </ul>
+
+                    <h3>Preguntas frecuentes:</h3>
+                    <ul>
+                        <li>¿Se puede usar sin internet? Sí, pero solo en red local.</li>
+                        <li>¿Puedo agregar nuevos ingredientes? Sí, desde el módulo de materias primas.</li>
+                    </ul>
+
+                    <h3>Canales de soporte técnico:</h3>
+                    <ul>
+                        <li>Correo: servicioalciudadano@sena.edu.co</li>
+                        <li>Teléfono: 5710101</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+
+        <div id="manual-instalacion" class="manual-content">
+            <section>
+                <h2>Manual de Instalación</h2>
+                <div class="placeholder">Contenido del Manual de Instalación próximamente disponible.</div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Centro Biotecnológico del Caribe (CBC). Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('active');
+        }
+
+        function showManual(value) {
+            document.querySelectorAll('.manual-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.sidebar a').forEach(link => {
+                link.classList.remove('active');
+            });
+            if (value) {
+                document.getElementById(`manual-${value}`).classList.add('active');
+                document.getElementById(`link-${value}`).classList.add('active');
+            }
+            if (window.innerWidth <= 480) {
+                document.querySelector('.sidebar').classList.remove('active');
+            }
+        }
+
+        function toggleSubContent(header) {
+            const content = header.nextElementSibling;
+            content.classList.toggle('active');
+        }
+
+        function toggleTheme() {
+            const body = document.body;
+            const themeToggle = document.querySelector('.theme-toggle');
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                themeToggle.textContent = '🌙 Modo Oscuro';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                themeToggle.textContent = '☀️ Modo Claro';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Load theme from localStorage
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            const themeToggle = document.querySelector('.theme-toggle');
+            if (savedTheme === 'dark') {
+                document.body.setAttribute('data-theme', 'dark');
+                themeToggle.textContent = '☀️ Modo Claro';
+            } else {
+                themeToggle.textContent = '🌙 Modo Oscuro';
+            }
+
+            // Reveal sections on scroll
+            const sections = document.querySelectorAll('.manual-content section');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+    </script>
+</body>
+</html>
