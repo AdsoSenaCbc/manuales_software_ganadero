@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manuales de Software - Balanceo y Cálculo de Raciones para Bovinos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body onload="showManual('home')">
+    <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+
+    <div class="sidebar">
+        <ul>
+            <li><a href="#" onclick="showManual('home')" id="link-home"><span class="icon">🏠</span> Inicio</a></li>
+            <li><a href="#" onclick="showManual('usuario')" id="link-usuario"><span class="icon">👤</span> Manual de Usuario</a></li>
+            <li><a href="#" onclick="showManual('tecnico')" id="link-tecnico"><span class="icon">🛠️</span> Manual Técnico</a></li>
+            <li><a href="#" onclick="showManual('instalacion')" id="link-instalacion"><span class="icon">📥</span> Manual de Instalación</a></li>
+        </ul>
+        <button class="theme-toggle" onclick="toggleTheme()">🌙 Modo Oscuro</button>
+    </div>
+
+    <header>
+        <h1>Manuales de Software</h1>
+    </header>
+
+    <main>
+        <div id="manual-home" class="manual-content">
+            <section class="premium-container">
+                <h2>¡Bienvenido!</h2>
+                <p>Esta es la guía oficial para el software de balanceo y cálculo de raciones para bovinos desarrollado por el Centro Biotecnológico del Caribe (CBC). Aquí encontrarás toda la información necesaria para utilizar, configurar y mantener esta herramienta diseñada para optimizar la nutrición ganadera, mejorar la productividad y facilitar la toma de decisiones.</p>
+            </section>
+            <section>
+                <h3>Selecciona una sección para comenzar:</h3>
+                <div class="interactive-menu">
+                    <div class="card" onclick="showManual('usuario')">
+                        <span class="icon">👤</span>
+                        <h4>Manual de Usuario</h4>
+                        <p>Aprende a usar el software de manera efectiva en tu día a día.</p>
+                    </div>
+                    <div class="card" onclick="showManual('tecnico')">
+                        <span class="icon">🛠️</span>
+                        <h4>Manual Técnico</h4>
+                        <p>Detalles avanzados sobre la arquitectura y mantenimiento.</p>
+                    </div>
+                    <div class="card" onclick="showManual('instalacion')">
+                        <span class="icon">📥</span>
+                        <h4>Manual de Instalación</h4>
+                        <p>Guía paso a paso para instalar y configurar el software.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div id="manual-usuario" class="manual-content">
+            <section>
+                <h2>Manual de Usuario</h2>
+                <div class="placeholder">Contenido del Manual de Usuario próximamente disponible.</div>
+            </section>
+        </div>
+
+        <div id="manual-tecnico" class="manual-content">
+            <section>
+                <h2 onclick="toggleSubContent(this)">1. Introducción</h2>
+                <div class="sub-content">
+                    <h3>Propósito del manual:</h3>
+                    <p>Este manual tiene como finalidad proporcionar una guía detallada para la instalación, configuración, uso y mantenimiento del software de balanceo y cálculo de raciones para bovinos desarrollado para el Centro Biotecnológico del Caribe (CBC). Está dirigido a desarrolladores, técnicos, instructores, aprendices y ganaderos que utilicen la herramienta.</p>
+
+                    <h3>Alcance del software:</h3>
+                    <p>El software permite calcular raciones alimenticias para bovinos en diferentes etapas productivas (crecimiento, mantenimiento, gestación, lactancia, engorde) optimizando la nutrición y reduciendo errores humanos. Facilita reportes, análisis y control histórico para mejorar la productividad y rentabilidad ganadera.</p>
+
+                    <h3>Versiones del documento:</h3>
+                    <p>Versión 1.0 – Febrero 2025.</p>
+                </div>
+            </section>
+
+            <section>
+                <h2 onclick="toggleSubContent(this)">2. Requerimientos del sistema</h2>
+                <div class="sub-content">
+                    <h3>Hardware necesario:</h3>
+                    <ul>
+                        <li>Procesador: Intel Core i3 o superior.</li>
+                        <li>Memoria RAM: mínimo 4 GB.</li>
+                        <li>Almacenamiento: mínimo 500 MB libres.</li>
+                        <li>Pantalla: resolución mínima 1366x768 píxeles.</li>
+                    </ul>
+
+                    <h3>Software base y dependencias:</h3>
+                    <ul>
+                        <li>Sistema operativo: Windows 10/11 o Linux Ubuntu 20.04+.</li>
+                        <li>Lenguaje backend: Python 3.10+.</li>
+                        <li>Lenguaje frontend: HTML, CSS, JavaScript.</li>
+                        <li>Base de datos: MySQL.</li>
+                        <li>Librerías Python: Flask==2.3.3, Werkzeug==2.3.7, Flask-SQLAlchemy==3.0.5, Flask-Migrate==4.0.4, Flask-Login==0.6.2, Flask-JWT-Extended==4.5.2, pymysql==1.1.0, pulp==2.7.0</li>
+                    </ul>
+
+                    <h3>Configuraciones recomendadas:</h3>
+                    <ul>
+                        <li>Conexión estable a internet para actualizaciones.</li>
+                        <li>Usuario con permisos de instalación.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2 onclick="toggleSubContent(this)">3. Arquitectura del software</h2>
+                <div class="sub-content">
+                    <h3>Diseño general y componentes:</h3>
+                    <ul>
+                        <li>Frontend: Interfaz web amigable e intuitiva para el ingreso de datos y visualización de resultados.</li>
+                        <li>Backend: Módulos de cálculo de raciones, conexión a base de datos y generación de reportes.</li>
+                        <li>Base de datos: Contiene tablas NRC, composición bromatológica y registros de usuarios y ganado.</li>
+                    </ul>
+
+                    <h3>Relaciones entre módulos:</h3>
+                    <ul>
+                        <li>Módulo de ingreso de datos → Módulo de cálculo → Módulo de reportes.</li>
+                        <li>Módulo de usuarios → Control de accesos y permisos.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2 onclick="toggleSubContent(this)">4. Instalación y configuración</h2>
+                <div class="sub-content">
+                    <h3>Instalación:</h3>
+                    <ol>
+                        <li>Descargar el instalador o clonar el repositorio del software.</li>
+                        <li>Instalar dependencias según requirements.txt.</li>
+                        <li>Configurar variables de entorno (credenciales DB, puertos).</li>
+                    </ol>
+
+                    <h3>Configuración inicial:</h3>
+                    <ul>
+                        <li>Ingresar tablas NRC y composición bromatológica inicial.</li>
+                        <li>Registrar usuarios y roles.</li>
+                        <li>Definir parámetros por defecto para cálculos.</li>
+                    </ul>
+
+                    <h3>Resolución de problemas comunes:</h3>
+                    <ul>
+                        <li>Error de conexión a base de datos → Verificar credenciales y puerto.</li>
+                        <li>Cálculos erróneos → Confirmar datos de entrada y tablas NRC cargadas.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2 onclick="toggleSubContent(this)">5. Descripción de módulos y funciones</h2>
+                <div class="sub-content">
+                    <ul>
+                        <li>Gestión de usuarios: Registro, autenticación y asignación de roles.</li>
+                        <li>Ingreso de datos ganaderos: Peso, etapa productiva, raza, ubicación.</li>
+                        <li>Ingreso de materias primas: Contenido nutricional y disponibilidad.</li>
+                        <li>Cálculo de raciones: Basado en tablas NRC y composición bromatológica.</li>
+                        <li>Ajustes manuales: Modificación de ingredientes y cantidades.</li>
+                        <li>Historial de cálculos: Seguimiento de cambios y resultados.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2 onclick="toggleSubContent(this)">6. Interfaz de usuario</h2>
+                <div class="sub-content">
+                    <ul>
+                        <li>Menú principal con acceso a módulos: Inicio, Ganado, Materias Primas, Cálculos, Reportes, Configuración.</li>
+                        <li>Pantallas con formularios simples y validados.</li>
+                        <li>Reportes descargables en PDF/Excel.</li>
+                        <li>Navegación intuitiva con botones claros y mensajes de ayuda.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2 onclick="toggleSubContent(this)">7. APIs y servicios externos</h2>
+                <div class="sub-content">
+                    <pre><code>{
+  "id_racion": 67,
+  "infoAnimal": {
+    "grasa_en_leche": 3.5,
+    "peso": 475.9,
+    "produccion_de_leche": 16
+  },
+  "racion_optima": {
+    "cumplimiento": {
+      "EM": true,
+      "MS": true,
+      "PC": true
+    },
+    "ingredientes_considerados": [
+      {
+        "costo_kg": 0.5,
+        "em": 2,
+        "id_ingrediente": 1,
+        "nombre": "bermuda - cynodon dactylon - hoja,tallo",
+        "pc_g": 120
+      },
+      {
+        "costo_kg": 0.4,
+        "em": 1.9,
+        "id_ingrediente": 5,
+        "nombre": "colosuana bothriochloa pertusa - hoja,tallo",
+        "pc_g": 90
+      },
+      {
+        "costo_kg": 0.5,
+        "em": 2,
+        "id_ingrediente": 8,
+        "nombre": "king grass - pennisetum purpureum xp. typhoides - hoja,tallo",
+        "pc_g": 110
+      },
+      {
+        "costo_kg": 0.7,
+        "em": 2.1,
+        "id_ingrediente": 12,
+        "nombre": "matarraton - gliricidia sepium - hoja",
+        "pc_g": 120
+      }
+    ],
+    "objetivo": "costo",
+    "objetivo_ms": 14.28,
+    "solucion": [
+      {
+        "em_aporte": 0,
+        "id_ingrediente": 1,
+        "kg_ms": 0,
+        "nombre": "bermuda - cynodon dactylon - hoja,tallo",
+        "pc_aporte_g": 0
+      },
+      {
+        "em_aporte": 27.132,
+        "id_ingrediente": 5,
+        "kg_ms": 14.28,
+        "nombre": "colosuana bothriochloa pertusa - hoja,tallo",
+        "pc_aporte_g": 1285.2
+      },
+      {
+        "em_aporte": 0,
+        "id_ingrediente": 8,
+        "kg_ms": 0,
+        "nombre": "king grass - pennisetum purpureum xp. typhoides - hoja,tallo",
+        "pc_aporte_g": 0
+      },
+      {
+        "em_aporte": 0,
+        "id_ingrediente": 12,
+        "kg_ms": 0,
+        "nombre": "matarraton - gliricidia sepium - hoja",
+        "pc_aporte_g": 0
+      }
+    ],
+    "status": "Optimal",
+    "totales": {
+      "ED": 33.088,
+      "EM": 27.132,
+      "EN": 16.361,
+      "MS": 14.28,
+      "PC": 1285.2,
+      "PD": 835.4,
+      "PT": 1285.2,
+      "TND": 7.505
+    }
+  },
+  "requerimientos": {
+    "ED": 23.326,
+    "EM": 19.127,
+    "EN": 10.733,
+    "MS": 14.28,
+    "PC": 524.8,
+    "PD": 341.1,
+    "TND": 5.29
+  },
+  "requerimientosEnergeticos": {
+    "energia_digestible": 23.326,
+    "energia_metabolizable": 19.127,
+    "energia_neta": 10.733,
+    "tnd": 5.29
+  },
+  "requerimientosMinerales": {
+    "calcio": null,
+    "fosforo": null
+  },
+  "requerimientosProteicos": {
+    "materia_seca": 14.28,
+    "proteina_digestible": 341.1,
+    "proteina_total": 524.8
+  },
+  "saved": true
+}</code></pre>
+                </div>
+            </section>
+
+            <section>
+                <h2 onclick="toggleSubContent(this)">9. Mantenimiento y actualizaciones</h2>
+                <div class="sub-content">
+                    <ul>
+                        <li>Revisar base de datos y limpiar registros obsoletos cada 6 meses.</li>
+                        <li>Aplicar parches y actualizaciones de librerías.</li>
+                        <li>Probar nuevas funciones en entorno de prueba antes de pasarlas a producción.</li>
+                        <li>Migrar datos con scripts seguros y respaldos previos.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section>
+                <h2 onclick="toggleSubContent(this)">10. Resolución de problemas</h2>
+                <div class="sub-content">
+                    <h3>Errores comunes:</h3>
+                    <ul>
+                        <li>No carga interfaz: Verificar que el servidor backend esté activo.</li>
+                        <li>Datos incompletos en reportes: Confirmar que todos los campos fueron llenados.</li>
+                        <li>No se guardan cambios: Revisar permisos de usuario.</li>
+                    </ul>
+
+                    <h3>Preguntas frecuentes:</h3>
+                    <ul>
+                        <li>¿Se puede usar sin internet? Sí, pero solo en red local.</li>
+                        <li>¿Puedo agregar nuevos ingredientes? Sí, desde el módulo de materias primas.</li>
+                    </ul>
+
+                    <h3>Canales de soporte técnico:</h3>
+                    <ul>
+                        <li>Correo: servicioalciudadano@sena.edu.co</li>
+                        <li>Teléfono: 5710101</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+
+        <div id="manual-instalacion" class="manual-content">
+            <section>
+                <h2>Manual de Instalación</h2>
+                <div class="placeholder">Contenido del Manual de Instalación próximamente disponible.</div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Centro Biotecnológico del Caribe (CBC). Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
