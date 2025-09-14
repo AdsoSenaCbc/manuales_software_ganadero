@@ -6,47 +6,139 @@
     <title>Manuales de Software - Balanceo y Cálculo de Raciones para Bovinos</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/styles.css">
+    <meta name="theme-color" content="#0b1220">
+    <link rel="stylesheet" href="css/styles.css?v=20250914">
 </head>
-<body onload="showManual('home')">
-    <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+<body>
+    <!-- Mobile backdrop -->
+    <div class="sidebar-backdrop" onclick="toggleSidebar()"></div>
 
-    <div class="sidebar">
-        <ul>            <li><a href="#" onclick="showManual('home')" id="link-home"><span class="icon">🏠</span> Inicio</a></li>
-            <li><a href="#" onclick="showManual('usuario')" id="link-usuario"><span class="icon">👤</span> Manual de Usuario</a></li>
-            <li><a href="#" onclick="showManual('tecnico')" id="link-tecnico"><span class="icon">🛠️</span> Manual Técnico</a></li>
-            <li><a href="#" onclick="showManual('instalacion')" id="link-instalacion"><span class="icon">📥</span> Manual de Instalación</a></li>
-        </ul>
-        <button class="theme-toggle" onclick="toggleTheme()">🌙 Modo Oscuro</button>
-    </div>
+    <!-- Hamburger toggle button - ALWAYS VISIBLE (Global/Mobile) -->
+    <button class="sidebar-toggle sidebar-toggle-global" onclick="toggleSidebar()" aria-label="Toggle sidebar">
+        <div class="hamburger-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </button>
+
+    <!-- Enhanced Sidebar -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <button class="sidebar-toggle-internal" onclick="toggleSidebar()" aria-label="Contraer barra lateral">
+                <div class="hamburger-icon">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <span class="label"></span>
+            </button>
+        </div>
+        <div class="sidebar-menu">
+            <div class="menu-section">
+                <div class="menu-section-title">Navegación Principal</div>
+                
+                <div class="menu-item">
+                    <a href="#" onclick="showManual('home')" id="link-home">
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 3.172L2.293 12.88a1 1 0 0 0 1.414 1.414L5 13.001V20a1 1 0 0 0 1 1h4v-5h4v5h4a1 1 0 0 0 1-1v-6.999l1.293 1.293a1 1 0 0 0 1.414-1.414L12 3.172z"/>
+                        </svg>
+                        <span class="label">Inicio</span>
+                    </a>
+                </div>
+
+                <div class="menu-item">
+                    <a href="#" onclick="showManual('usuario')" id="link-usuario">
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 12a5 5 0 1 0-5-5 5.006 5.006 0 0 0 5 5zm0 2c-4.336 0-8 2.163-8 4.833V21a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-2.167C20 16.163 16.336 14 12 14z"/>
+                        </svg>
+                        <span class="label">Manual de Usuario</span>
+                    </a>
+                </div>
+
+                <div class="menu-item has-dropdown" id="manual-tecnico-dropdown">
+                    <a href="#" onclick="toggleDropdown('manual-tecnico-dropdown')" id="link-tecnico">
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M21.7 13.35l-3.03-3.03a5.004 5.004 0 0 0-6.94-6.94L11 4.13l2.12 2.12 1.41-1.41a3 3 0 1 1 4.24 4.24l-1.41 1.41 2.12 2.12 2.21-2.21a1 1 0 0 1 1.41 1.41l-2.21 2.21 1.81 1.81a1 1 0 1 1-1.41 1.41l-1.81-1.81-6.3 6.3a2 2 0 0 1-2.83 0L3.29 16.7a2 2 0 0 1 0-2.83l6.3-6.3L7.46 5.44 6.04 6.86a5.004 5.004 0 0 0 6.94 6.94l6.3 6.3a1 1 0 0 0 1.41-1.41z"/>
+                        </svg>
+                        <span class="label">Manual Técnico</span>
+                    </a>
+                    <div class="submenu">
+                        <a href="#" onclick="showManual('tecnico'); scrollToSection('introduccion')">1. Introducción</a>
+                        <a href="#" onclick="showManual('tecnico'); scrollToSection('requerimientos')">2. Requerimientos</a>
+                        <a href="#" onclick="showManual('tecnico'); scrollToSection('arquitectura')">3. Arquitectura</a>
+                        <a href="#" onclick="showManual('tecnico'); scrollToSection('instalacion')">4. Instalación</a>
+                        <a href="#" onclick="showManual('tecnico'); scrollToSection('modulos')">5. Módulos</a>
+                        <a href="#" onclick="showManual('tecnico'); scrollToSection('interfaz')">6. Interfaz</a>
+                        <a href="#" onclick="showManual('tecnico'); scrollToSection('apis')">7. APIs</a>
+                        <a href="#" onclick="showManual('tecnico'); scrollToSection('seguridad')">8. Seguridad</a>
+                        <a href="#" onclick="showManual('tecnico'); scrollToSection('mantenimiento')">9. Mantenimiento</a>
+                        <a href="#" onclick="showManual('tecnico'); scrollToSection('problemas')">10. Soluciones</a>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <a href="#" onclick="showManual('instalacion')" id="link-instalacion">
+                        <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 3a1 1 0 0 1 1 1v8.586l2.293-2.293a1 1 0 1 1 1.414 1.414l-4.007 4.007a1 1 0 0 1-1.4.004L7.293 11.707a1 1 0 1 1 1.414-1.414L11 12.586V4a1 1 0 0 1 1-1zM4 19a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2H5a1 1 0 0 1-1-1z"/>
+                        </svg>
+                        <span class="label">Manual de Instalación</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="theme-toggle-container">
+            <button class="theme-toggle" onclick="toggleTheme()" id="theme-btn">
+                <span class="theme-icon">🌙</span>
+                <span class="theme-text">Modo Oscuro</span>
+            </button>
+        </div>
+    </nav>
 
     <header>
         <h1>Manuales de Software</h1>
+        <p>Guías del sistema de balanceo y cálculo de raciones para bovinos del CBC.</p>
     </header>
 
     <main>
-        <div id="manual-home" class="manual-content">
-            <section class="premium-container">
+        <div id="manual-home" class="manual-content active">
+            <section class="visible">
                 <h2>¡Bienvenido!</h2>
                 <p>Esta es la guía oficial para el software de balanceo y cálculo de raciones para bovinos desarrollado por el Centro Biotecnológico del Caribe (CBC). Aquí encontrarás toda la información necesaria para utilizar, configurar y mantener esta herramienta diseñada para optimizar la nutrición ganadera, mejorar la productividad y facilitar la toma de decisiones.</p>
             </section>
-            <section>
-                <h3>Selecciona una sección para comenzar:</h3>
+            
+            <section class="visible">
+                <h2>Selecciona una sección para comenzar:</h2>
                 <div class="interactive-menu">
-                    <div class="card" onclick="showManual('usuario')">
-                        <span class="icon">👤</span>
-                        <h4>Manual de Usuario</h4>
-                        <p>Aprende a usar el software de manera efectiva en tu día a día.</p>
+                    <div class="card" onclick="showManual('usuario')" tabindex="0">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                            <svg style="width: 28px; height: 28px; color: white;" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 12a5 5 0 1 0-5-5 5.006 5.006 0 0 0 5 5zm0 2c-4.336 0-8 2.163-8 4.833V21a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-2.167C20 16.163 16.336 14 12 14z"/>
+                            </svg>
+                        </div>
+                        <h4 style="font-size: 1.25rem; margin-bottom: 8px; color: var(--text-color);">Manual de Usuario</h4>
+                        <p style="color: #64748b;">Aprende a usar el software de manera efectiva en tu día a día.</p>
                     </div>
-                    <div class="card" onclick="showManual('tecnico')">
-                        <span class="icon">🛠️</span>
-                        <h4>Manual Técnico</h4>
-                        <p>Detalles avanzados sobre la arquitectura y mantenimiento.</p>
+
+                    <div class="card" onclick="showManual('tecnico')" tabindex="0">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #059669, #047857); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                            <svg style="width: 28px; height: 28px; color: white;" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M21.7 13.35l-3.03-3.03a5.004 5.004 0 0 0-6.94-6.94L11 4.13l2.12 2.12 1.41-1.41a3 3 0 1 1 4.24 4.24l-1.41 1.41 2.12 2.12 2.21-2.21a1 1 0 0 1 1.41 1.41l-2.21 2.21 1.81 1.81a1 1 0 1 1-1.41 1.41l-1.81-1.81-6.3 6.3a2 2 0 0 1-2.83 0L3.29 16.7a2 2 0 0 1 0-2.83l6.3-6.3L7.46 5.44 6.04 6.86a5.004 5.004 0 0 0 6.94 6.94l6.3 6.3a1 1 0 0 0 1.41-1.41z"/>
+                            </svg>
+                        </div>
+                        <h4 style="font-size: 1.25rem; margin-bottom: 8px; color: var(--text-color);">Manual Técnico</h4>
+                        <p style="color: #64748b;">Detalles avanzados sobre la arquitectura y mantenimiento.</p>
                     </div>
-                    <div class="card" onclick="showManual('instalacion')">
-                        <span class="icon">📥</span>
-                        <h4>Manual de Instalación</h4>
-                        <p>Guía paso a paso para instalar y configurar el software.</p>
+
+                    <div class="card" onclick="showManual('instalacion')" tabindex="0">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #7c3aed, #5b21b6); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px;">
+                            <svg style="width: 28px; height: 28px; color: white;" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 3a1 1 0 0 1 1 1v8.586l2.293-2.293a1 1 0 1 1 1.414 1.414l-4.007 4.007a1 1 0 0 1-1.4.004L7.293 11.707a1 1 0 1 1 1.414-1.414L11 12.586V4a1 1 0 0 1 1-1zM4 19a1 1 0 0 1 1-1h14a1 1 0 1 1 0 2H5a1 1 0 0 1-1-1z"/>
+                            </svg>
+                        </div>
+                        <h4 style="font-size: 1.25rem; margin-bottom: 8px; color: var(--text-color);">Manual de Instalación</h4>
+                        <p style="color: #64748b;">Guía paso a paso para instalar y configurar el software.</p>
                     </div>
                 </div>
             </section>
@@ -60,7 +152,7 @@
         </div>
 
         <div id="manual-tecnico" class="manual-content">
-            <section>
+            <section id="introduccion">
                 <h2 onclick="toggleSubContent(this)">1. Introducción</h2>
                 <div class="sub-content">
                     <h3>Propósito del manual:</h3>
@@ -70,11 +162,11 @@
                     <p>El software permite calcular raciones alimenticias para bovinos en diferentes etapas productivas (crecimiento, mantenimiento, gestación, lactancia, engorde) optimizando la nutrición y reduciendo errores humanos. Facilita reportes, análisis y control histórico para mejorar la productividad y rentabilidad ganadera.</p>
 
                     <h3>Versiones del documento:</h3>
-                    <p>Versión 1.0 – Febrero 2025.</p>
+                    <p>Versión 1.0 — Febrero 2025.</p>
                 </div>
             </section>
 
-            <section>
+            <section id="requerimientos">
                 <h2 onclick="toggleSubContent(this)">2. Requerimientos del sistema</h2>
                 <div class="sub-content">
                     <h3>Hardware necesario:</h3>
@@ -102,7 +194,7 @@
                 </div>
             </section>
 
-            <section>
+            <section id="arquitectura">
                 <h2 onclick="toggleSubContent(this)">3. Arquitectura del software</h2>
                 <div class="sub-content">
                     <h3>Diseño general y componentes:</h3>
@@ -120,7 +212,7 @@
                 </div>
             </section>
 
-            <section>
+            <section id="instalacion">
                 <h2 onclick="toggleSubContent(this)">4. Instalación y configuración</h2>
                 <div class="sub-content">
                     <h3>Instalación:</h3>
@@ -145,7 +237,7 @@
                 </div>
             </section>
 
-            <section>
+            <section id="modulos">
                 <h2 onclick="toggleSubContent(this)">5. Descripción de módulos y funciones</h2>
                 <div class="sub-content">
                     <ul>
@@ -159,7 +251,7 @@
                 </div>
             </section>
 
-            <section>
+            <section id="interfaz">
                 <h2 onclick="toggleSubContent(this)">6. Interfaz de usuario</h2>
                 <div class="sub-content">
                     <ul>
@@ -171,9 +263,10 @@
                 </div>
             </section>
 
-            <section>
+            <section id="apis">
                 <h2 onclick="toggleSubContent(this)">7. APIs y servicios externos</h2>
                 <div class="sub-content">
+                    <h3>Ejemplo de respuesta API para cálculo de ración:</h3>
                     <pre><code>{
   "id_racion": 67,
   "infoAnimal": {
@@ -201,52 +294,17 @@
         "id_ingrediente": 5,
         "nombre": "colosuana bothriochloa pertusa - hoja,tallo",
         "pc_g": 90
-      },
-      {
-        "costo_kg": 0.5,
-        "em": 2,
-        "id_ingrediente": 8,
-        "nombre": "king grass - pennisetum purpureum xp. typhoides - hoja,tallo",
-        "pc_g": 110
-      },
-      {
-        "costo_kg": 0.7,
-        "em": 2.1,
-        "id_ingrediente": 12,
-        "nombre": "matarraton - gliricidia sepium - hoja",
-        "pc_g": 120
       }
     ],
     "objetivo": "costo",
     "objetivo_ms": 14.28,
     "solucion": [
       {
-        "em_aporte": 0,
-        "id_ingrediente": 1,
-        "kg_ms": 0,
-        "nombre": "bermuda - cynodon dactylon - hoja,tallo",
-        "pc_aporte_g": 0
-      },
-      {
         "em_aporte": 27.132,
         "id_ingrediente": 5,
         "kg_ms": 14.28,
         "nombre": "colosuana bothriochloa pertusa - hoja,tallo",
         "pc_aporte_g": 1285.2
-      },
-      {
-        "em_aporte": 0,
-        "id_ingrediente": 8,
-        "kg_ms": 0,
-        "nombre": "king grass - pennisetum purpureum xp. typhoides - hoja,tallo",
-        "pc_aporte_g": 0
-      },
-      {
-        "em_aporte": 0,
-        "id_ingrediente": 12,
-        "kg_ms": 0,
-        "nombre": "matarraton - gliricidia sepium - hoja",
-        "pc_aporte_g": 0
       }
     ],
     "status": "Optimal",
@@ -270,58 +328,92 @@
     "PD": 341.1,
     "TND": 5.29
   },
-  "requerimientosEnergeticos": {
-    "energia_digestible": 23.326,
-    "energia_metabolizable": 19.127,
-    "energia_neta": 10.733,
-    "tnd": 5.29
-  },
-  "requerimientosMinerales": {
-    "calcio": null,
-    "fosforo": null
-  },
-  "requerimientosProteicos": {
-    "materia_seca": 14.28,
-    "proteina_digestible": 341.1,
-    "proteina_total": 524.8
-  },
   "saved": true
 }</code></pre>
                 </div>
             </section>
 
-            <section>
-                <h2 onclick="toggleSubContent(this)">9. Mantenimiento y actualizaciones</h2>
+            <section id="seguridad">
+                <h2 onclick="toggleSubContent(this)">8. Seguridad y autenticación</h2>
                 <div class="sub-content">
+                    <h3>Medidas de seguridad implementadas:</h3>
                     <ul>
-                        <li>Revisar base de datos y limpiar registros obsoletos cada 6 meses.</li>
-                        <li>Aplicar parches y actualizaciones de librerías.</li>
-                        <li>Probar nuevas funciones en entorno de prueba antes de pasarlas a producción.</li>
-                        <li>Migrar datos con scripts seguros y respaldos previos.</li>
+                        <li>Autenticación JWT (JSON Web Tokens) para sesiones seguras.</li>
+                        <li>Encriptación de contraseñas con algoritmos hash seguros.</li>
+                        <li>Validación de entrada de datos para prevenir inyección SQL.</li>
+                        <li>Control de acceso basado en roles (RBAC).</li>
+                        <li>Logs de auditoría para rastrear actividades del usuario.</li>
+                        <li>Configuración HTTPS para comunicaciones seguras.</li>
+                        <li>Límites de intentos de inicio de sesión.</li>
+                        <li>Sanitización de datos de entrada.</li>
+                    </ul>
+
+                    <h3>Roles y permisos:</h3>
+                    <ul>
+                        <li>Administrador: Acceso completo al sistema.</li>
+                        <li>Técnico: Gestión de datos y configuraciones.</li>
+                        <li>Usuario: Cálculo de raciones y consulta de reportes.</li>
+                        <li>Invitado: Solo visualización de resultados públicos.</li>
                     </ul>
                 </div>
             </section>
 
-            <section>
+            <section id="mantenimiento">
+                <h2 onclick="toggleSubContent(this)">9. Mantenimiento y actualizaciones</h2>
+                <div class="sub-content">
+                    <h3>Rutinas de mantenimiento:</h3>
+                    <ul>
+                        <li>Revisar base de datos y limpiar registros obsoletos cada 6 meses.</li>
+                        <li>Aplicar parches y actualizaciones de librerías de seguridad.</li>
+                        <li>Monitoreo de rendimiento del servidor y optimización de consultas.</li>
+                        <li>Respaldos automáticos diarios de la base de datos.</li>
+                        <li>Verificación de integridad de datos semanalmente.</li>
+                    </ul>
+
+                    <h3>Proceso de actualización:</h3>
+                    <ul>
+                        <li>Probar nuevas funciones en entorno de desarrollo.</li>
+                        <li>Validación en entorno de prueba antes de producción.</li>
+                        <li>Migrar datos con scripts seguros y respaldos previos.</li>
+                        <li>Documentar cambios y versiones implementadas.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="problemas">
                 <h2 onclick="toggleSubContent(this)">10. Resolución de problemas</h2>
                 <div class="sub-content">
-                    <h3>Errores comunes:</h3>
+                    <h3>Errores comunes y soluciones:</h3>
                     <ul>
-                        <li>No carga interfaz: Verificar que el servidor backend esté activo.</li>
-                        <li>Datos incompletos en reportes: Confirmar que todos los campos fueron llenados.</li>
-                        <li>No se guardan cambios: Revisar permisos de usuario.</li>
+                        <li>No carga interfaz: Verificar que el servidor backend esté activo y los puertos estén abiertos.</li>
+                        <li>Datos incompletos en reportes: Confirmar que todos los campos obligatorios fueron llenados correctamente.</li>
+                        <li>No se guardan cambios: Revisar permisos de usuario y conexión a la base de datos.</li>
+                        <li>Cálculos inconsistentes: Validar datos de entrada y actualizar tablas nutricionales.</li>
+                        <li>Lentitud del sistema: Optimizar consultas de base de datos y verificar recursos del servidor.</li>
                     </ul>
 
                     <h3>Preguntas frecuentes:</h3>
                     <ul>
-                        <li>¿Se puede usar sin internet? Sí, pero solo en red local.</li>
-                        <li>¿Puedo agregar nuevos ingredientes? Sí, desde el módulo de materias primas.</li>
+                        <li>¿Se puede usar sin internet? Sí, pero solo en red local con limitaciones de sincronización.</li>
+                        <li>¿Puedo agregar nuevos ingredientes? Sí, desde el módulo de materias primas con permisos adecuados.</li>
+                        <li>¿Los datos se respaldan automáticamente? Sí, con respaldos diarios programados.</li>
+                        <li>¿Cómo actualizo las tablas NRC? A través del módulo de administración con credenciales de técnico.</li>
                     </ul>
 
                     <h3>Canales de soporte técnico:</h3>
                     <ul>
-                        <li>Correo: servicioalciudadano@sena.edu.co</li>
-                        <li>Teléfono: 5710101</li>
+                        <li>Correo electrónico: servicioalciudadano@sena.edu.co</li>
+                        <li>Teléfono de soporte: 5710101</li>
+                        <li>Mesa de ayuda: Disponible de lunes a viernes, 8:00 AM - 5:00 PM</li>
+                        <li>Documentación técnica: Manual actualizado en el repositorio oficial</li>
+                    </ul>
+
+                    <h3>Logs y diagnósticos:</h3>
+                    <ul>
+                        <li>Logs de aplicación: /var/log/app/application.log</li>
+                        <li>Logs de base de datos: /var/log/mysql/error.log</li>
+                        <li>Logs de sistema: /var/log/syslog</li>
+                        <li>Herramientas de monitoreo: Panel de administración integrado</li>
                     </ul>
                 </div>
             </section>
@@ -338,6 +430,7 @@
     <footer>
         <p>&copy; 2025 Centro Biotecnológico del Caribe (CBC). Todos los derechos reservados.</p>
     </footer>
-    <script src="js/main.js"></script>
+
+    <script src="js/main.js?v=20250914"></script>
 </body>
 </html>
